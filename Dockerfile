@@ -1,11 +1,11 @@
-FROM node:19.7-alpine AS builder
+FROM node:lts-slim AS builder
 WORKDIR /app
 COPY package*.json .
 RUN npm ci
 COPY . .
 RUN npm run build && npm prune --production
 
-FROM node:19.7-alpine
+FROM node:lts-slim
 WORKDIR /app
 COPY --from=builder /app/build build/
 COPY --from=builder /app/node_modules node_modules/
